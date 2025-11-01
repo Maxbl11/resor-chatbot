@@ -31,7 +31,6 @@
       margin-top:14px; font-size:14px; color:#555;
       background:rgba(0,0,0,.035); padding:10px 12px; border-radius:12px;
     }
-    code{background:rgba(0,0,0,.06); padding:2px 6px; border-radius:6px}
     .footer{margin-top:18px; font-size:12px; color:#666}
   </style>
 </head>
@@ -39,18 +38,37 @@
   <main class="wrap">
     <h1>Chatbot – Silence Above the Clouds</h1>
     <p>Tento soubor slouží jako <strong>veřejná URL</strong> s vaším Chatbase chatbotem pro vložení odkazu do Wordu.</p>
-    <p><strong>👉 Důležité:</strong> Níže vložte <em>váš</em> embed skript z <em>Deploy → Embed</em> v Chatbase.</p>
-    <div class="hint">
-      Otevřete Chatbase → <em>Deploy → Embed</em> → zkopírujte celý &lt;script&gt; blok a vložte ho pod tuto poznámku.
-    </div>
 
-    <!-- ====== PASTE YOUR CHATBASE EMBED SCRIPT BELOW THIS LINE ====== -->
-    <!-- Příklad (nahraďte vlastním embed kódem):
-    <script src="https://www.chatbase.co/embed.min.js" chatbotId="VASE_CHATBOT_ID" domain="*"></script>
-    -->
-    <!-- ====== END EMBED AREA ====== -->
+    <!-- ====== CHATBASE EMBED (TVŮJ FUNKČNÍ SCRIPT) ====== -->
+    <script>
+      (function(){
+        if(!window.chatbase || window.chatbase("getState") !== "initialized"){
+          window.chatbase = (...arguments)=>{
+            if(!window.chatbase.q){ window.chatbase.q = [] }
+            window.chatbase.q.push(arguments)
+          };
+          window.chatbase = new Proxy(window.chatbase, {
+            get(target, prop){
+              if(prop==="q"){ return target.q }
+              return (...args)=>target(prop, ...args)
+            }
+          })
+        }
+        const onLoad = function(){
+          const script = document.createElement("script");
+          script.src = "https://www.chatbase.co/embed.min.js";
+          script.id = "SqyYZzuLskULqSQoioh1l";   /* <- tvé ID */
+          script.domain = "www.chatbase.co";
+          document.body.appendChild(script);
+        };
+        if(document.readyState === "complete"){ onLoad() }
+        else { window.addEventListener("load", onLoad) }
+      })();
+    </script>
+    <!-- ====== /CHATBASE EMBED ====== -->
 
-    <p class="footer">Po publikaci přes GitHub Pages získáte veřejnou adresu, kterou vložíte do Wordu jako odkaz.</p>
+    <p class="footer">Po publikaci přes GitHub Pages vložte tuto adresu do Wordu jako odkaz.</p>
   </main>
 </body>
 </html>
+
